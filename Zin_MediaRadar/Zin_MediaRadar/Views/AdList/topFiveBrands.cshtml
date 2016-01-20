@@ -1,0 +1,71 @@
+﻿@model List<Zin_MediaRadar.AdDataService.Ad>
+@using Zin_MediaRadar.Models
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "topFiveBrands";
+    var tfBrandList = Model.ToList();
+}
+
+<h2>Top Five Brands</h2>
+<link href="~/CSS/AdList.css" rel="stylesheet" type="text/css" />
+<div>
+    @using (Html.BeginForm())
+    {
+        <div class="linkContainer">
+            <ul>@Html.ActionLink("Full Ad List", "FullListAd")</ul>
+            <ul>@Html.ActionLink("Cover Ad List", "CoverAdList")</ul>
+            <ul>@Html.ActionLink("Top Five Ads", "topFiveAds")</ul>
+        </div>
+        <br />
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.Label("Ad ID")
+                        </th>
+                        <th>
+                            @Html.Label("Brand ID")
+                        </th>
+                        <th>
+                            @Html.Label("Brand Name")
+                        </th>
+                        <th>
+                            @Html.Label("Num of Pages")
+                        </th>
+                        <th>
+                            @Html.Label("Position")
+                        </th>
+                    </tr>
+                </thead>
+                @for (int i = 0; i < tfBrandList.Count; i++)
+                {
+                    var fList = tfBrandList[i];
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => fList.AdId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => fList.Brand.BrandId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => fList.Brand.BrandName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => fList.NumPages)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => fList.Position)
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,81 @@
+﻿@model PagedList.IPagedList<Zin_MediaRadar.AdDataService.Ad>
+@using Zin_MediaRadar.Models
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "CoverAdList";
+    var coverList = Model.ToList();
+}
+
+<h2>CoverAdList</h2>
+
+<link href="../../CSS/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/CSS/AdList.css" rel="stylesheet" type="text/css" />
+<div>
+    @using (Html.BeginForm())
+    {
+        <div class="linkContainer">
+            <ul>@Html.ActionLink("Full Ad List", "FullListAd")</ul>
+            <ul>@Html.ActionLink("Top Five Ads", "topFiveAds")</ul>
+            <ul>@Html.ActionLink("Top Five Brands", "topFiveBrands")</ul>
+        </div>
+        <br />
+        <div>
+            <input type="hidden" name="currentSortBy" value="@String.Format(ViewBag.CurrentSortBy)" />
+            <input type="hidden" name="currentSortByDir" value="@String.Format(ViewBag.CurrentSortByDir)" />
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("AdId", "CoverAdList", new { sortBy = "AdId", sortOrder = String.Format(ViewBag.SortDirParm) })
+                    </th>
+                    <th>
+                        @Html.ActionLink("BrandId", "CoverAdList", new { sortBy = "BrandId", sortOrder = String.Format(ViewBag.SortDirParm) })
+                    </th>
+                    <th>
+                        @Html.ActionLink("BrandName", "CoverAdList", new { sortBy = "BrandName", sortOrder = String.Format(ViewBag.SortDirParm) })
+                    </th>
+                    <th>
+                        @Html.ActionLink("NumPages", "CoverAdList", new { sortBy = "NumPages", sortOrder = String.Format(ViewBag.SortDirParm) })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Position", "CoverAdList", new { sortBy = "Position", sortOrder = String.Format(ViewBag.SortDirParm) })
+                    </th>
+                </tr>
+            </thead>
+            @for (int i = 0; i < coverList.Count; i++)
+            {
+                var cList = coverList[i];
+
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => cList.AdId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => cList.Brand.BrandId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => cList.Brand.BrandName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => cList.NumPages)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => cList.Position)
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+        <br />
+        <div>
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("CoverAdList", new { page, sortBy = String.Format(ViewBag.CurrentSortBy), sortOrder = String.Format(ViewBag.CurrentSortByDir) }))
+        </div>
+    }
+</div>
+
